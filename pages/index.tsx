@@ -3,8 +3,9 @@ import Head from 'next/head'
 import Header from '../components/Header'
 import Banner from '../components/Banner'
 import SmallCard from '../components/SmallCard'
+import MediumCard from '../components/MediumCard'
 
-function Home({ exploreData }){
+function Home({ exploreData, cardsData }){
   return (
     <div className="">
       <Head>
@@ -29,6 +30,18 @@ function Home({ exploreData }){
             ))}
           </div>
         </section>
+        <section>
+          <h2 className='text-4xl font-semibold py-8'>Live Anywhere</h2>
+          <div className=' flex overflow-scroll scrollbar-hide  mx-2 space-x-3 p-3 -ml-3'>
+            {cardsData.map(({img,title}) => (
+              <MediumCard
+              key={img}
+              img={img}
+              title={title}
+              />
+            ))}
+          </div>
+        </section>
       </main>
     </div>
   )
@@ -44,10 +57,17 @@ export async function getStaticProps() {
   // const res = await fetch('MockData.json')
   // // const res = await fetch('https://www.jsonkeeper.com/b/4G1G')
   // const exploreData = await res.json()
+  
+  const filePath2 = path.join(process.cwd(), 'pages/MockData2.json');
+  const jsonData2 = await fsPromises.readFile(filePath2);
+  const cardsData = JSON.parse(jsonData2);
+
+
 
   return{
     props: {
       exploreData,
+      cardsData
     },
   }
 }
